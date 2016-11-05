@@ -17,7 +17,7 @@ echo
 
 echo
 echo "#############################################################"
-echo "# NOTICE:     											  #"
+echo "# NOTICE:                                                   #"
 echo "# The script will install Apache in /opt/httpd              #"
 echo "# The script will install Apr in /opt/apr                   #"
 echo "# The script will install Apr-Util in /opt/apr-util         #"
