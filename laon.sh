@@ -11,7 +11,7 @@ clear
 echo
 echo "#############################################################"
 echo "# One click Install Apache+OpenSSL+Nghttp2+Node.JS+HEXO     #"
-echo "# Author: abcde11819 <abcde11819@live.com>                  #"
+echo "# Author: Baka-Network <contact@baka.network>               #"
 echo "#############################################################"
 echo
 
