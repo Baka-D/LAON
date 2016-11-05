@@ -4,7 +4,7 @@ export PATH
 #=================================================================#
 #   System Required:  Ubuntu 12+                                  #
 #   One click Install Apache+OpenSSL+Nghttp2+Node.JS+HEXO         #
-#   Author: abcde11819 <abcde11819@live.com>                      #
+# Author: Baka-Network <contact@baka.network>                     #
 #=================================================================#
 
 clear
