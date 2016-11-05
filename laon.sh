@@ -27,9 +27,6 @@ echo "# The script will install Pcre in /opt/pcre                 #"
 echo "# The script will install your HEXO in /var/www/blog        #"
 echo "#############################################################"
 echo
-# Make TEMP folder
-    mkdir /tmp/LAON
-    cd /tmp/LAON
 
 # Make sure only root can run our script
 rootness(){
@@ -84,14 +81,14 @@ pre_install(){
 
 # Making File-Cache Dir
 make_dir(){
-	mkdir /tmp/LAONNH
-    cd /tmp/LAONNH
+    mkdir /tmp/LAON
+    cd /tmp/LAON
 }
 
 # Install Apr
 install_apr(){
     echo "Installing Apr"
-	cd /tmp/LAON
+    cd /tmp/LAON
     wget --no-check-certificate https://github.com/apache/apr/archive/1.5.2.tar.gz
     tar -zxf 1.5.2.tar.gz
     rm 1.5.2.tar.gz
@@ -156,7 +153,7 @@ install_openssl(){
     rm OpenSSL*.tar.gz
     mv *openssl* openssl
     cd openssl
-    ./config --prefix=/opt/openssl
+    ./config --prefix=/opt/openssl --enable-shared
     make && make install
 }
 
@@ -167,38 +164,41 @@ install_apache(){
     tar -zxf ${apaversion}.tar.gz
     rm ${apaversion}.tar.gz
     cd httpd*
-	ln -s /tmp/LAON/apr srclib/apr
-	ln -s /tmp/LAON/apr-util srclib/apr-util
-	./buildconf
+    ln -s /tmp/LAON/apr srclib/apr
+    ln -s /tmp/LAON/apr-util srclib/apr-util
+    ./buildconf
     ./configure --prefix=/opt/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/apr --with-apr-util=/opt/apr-util --with-pcre=/opt/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/nghttp2 --with-ssl=/opt/openssl --with-crypto
     make && make install
 }
 
 # Install HEXO
 install_hexo(){
-	npm install n -g
-	n ${nodeversion}
-	npm install hexo-cli -g
-	mkdir /var/www
-	mkdir /var/www/blog
-	hexo init ${hexopatch}
-	cd ${hexopatch}
-	npm install
+    npm install n -g
+    n ${nodeversion}
+    npm install hexo-cli -g
+    mkdir /var/www
+    mkdir /var/www/blog
+    hexo init ${hexopatch}
+    cd ${hexopatch}
+    npm install
 }
 
 # Config
 config(){
-	echo "Configing"
-	cp /opt/openssl/lib/* /usr/lib -R -f
-	cp /opt/httpd/bin/* /usr/bin -R -f
-	cp /opt/nghttp2/lib/* /usr/lib -R -f
+    echo "Configing"
+    chown www-root:www-root /var/www/blog/public -R
+    chmod 755 /var/www/blog/public -R
+    cp /opt/openssl/lib/* /usr/lib -R -f
+    cp /opt/httpd/bin/* /usr/bin -R -f
+    cp /opt/nghttp2/lib/* /usr/lib -R -f
+    
 }
 
 # Delete Downloaded File
 delete_files(){
-	echo "Deleting useless files"
-	rm -rf /tmp/LAON
-	echo "Install Complete!"
+    echo "Deleting useless files"
+    rm -rf /tmp/LAON
+    echo "Install Complete!"
 }
 
 # Install LAON
