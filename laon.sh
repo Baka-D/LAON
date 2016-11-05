@@ -204,9 +204,9 @@ delete_files(){
 # Install LAON
 install_LAON(){
     rootness
-	disable_selinux
+    disable_selinux
     pre_install
-	make_dir
+    make_dir
     install_apr
     install_apr_util
     install_zlib
@@ -214,7 +214,7 @@ install_LAON(){
     install_nghttp2
     install_openssl
     install_apache
-	install_hexo
+    install_hexo
     config
     delete_files
 }
