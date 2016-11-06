@@ -50,19 +50,19 @@ pre_install(){
     read -p "(Default Version: 2.4.23 ):" apaversion
     [ -z "${apaversion}" ] && apaversion="2.4.23"
     # Set OpenSSL Version
-    echo -e "Please input the version of OpenSSL [X_X_Xx eg:1_0_2h]:"
-    read -p "(Default Version: 1.0.2h[1_0_2h,X_X_Xx eg:1_0_2h]):" oslversion
-    [ -z "$oslversion" ] && oslversion="1_0_2h"
+    echo -e "Please input the version of OpenSSL [X_X_Xx eg:1_0_2j]:"
+    read -p "(Default Version: 1.0.2j[1_0_2j,X_X_Xx eg:1_0_2j]):" oslversion
+    [ -z "$oslversion" ] && oslversion="1_0_2j"
     # Set Nghttp2 Version
     echo -e "Please input the version of Nghttp2:"
     read -p "(Default Version: 1.14.1):" nh2version
     [ -z "$nh2version" ] && nh2version="1.14.1"
 	# Set Node.js Version
-    echo "Please input the version of Node.js:"
-    read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
-    [ -z "${nodeversion}" ] && nodeversion="stable"
+    #echo "Please input the version of Node.js:"
+    #read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
+    #[ -z "${nodeversion}" ] && nodeversion="stable"
 	# Set HEXO Directory
-    [ -z "${hexopatch}" ] && hexopatch="/var/www/blog"
+    #[ -z "${hexopatch}" ] && hexopatch="/var/www/blog"
     get_char(){
         SAVEDSTTY=`stty -g`
         stty -echo
@@ -76,7 +76,7 @@ pre_install(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
     #Install necessary dependencies
-    apt-get update -y && apt-get install build-essential git unzip gcc make automake python autoconf libtool* npm -y
+    apt-get update -y && apt-get install build-essential git unzip gcc make automake python autoconf libtool* -y
 }
 
 # Making File-Cache Dir
@@ -172,25 +172,25 @@ install_apache(){
 }
 
 # Install HEXO
-install_hexo(){
-    npm install n -g
-    n ${nodeversion}
-    npm install hexo-cli -g
-    mkdir /var/www
-    mkdir /var/www/blog
-    hexo init ${hexopatch}
-    cd ${hexopatch}
-    npm install
-}
+#install_hexo(){
+    #npm install n -g
+    #n ${nodeversion}
+    #npm install hexo-cli -g
+    #mkdir /var/www
+    #mkdir /var/www/blog
+    #hexo init ${hexopatch}
+    #cd ${hexopatch}
+    #npm install
+#}
 
 # Config
 config(){
     echo "Configing"
-    chown www-root:www-root /var/www/blog/public -R
-    chmod 755 /var/www/blog/public -R
-    cp /opt/openssl/lib/* /usr/lib -R -f
-    cp /opt/httpd/bin/* /usr/bin -R -f
-    cp /opt/nghttp2/lib/* /usr/lib -R -f
+    #chown www-root:www-root /var/www/blog/public -R
+    #chmod 755 /var/www/blog/public -R
+    cp /opt/openssl/lib/* /usr/lib/ -R -f
+    cp /opt/httpd/bin/* /usr/bin/ -R -f
+    cp /opt/nghttp2/lib/* /usr/lib/ -R -f
     
 }
 
@@ -214,7 +214,7 @@ install_LAON(){
     install_nghttp2
     install_openssl
     install_apache
-    install_hexo
+    #install_hexo
     config
     delete_files
 }
@@ -222,13 +222,15 @@ install_LAON(){
 # Uninstall LAON
 uninstall_LAON(){
     rm -rf /opt/httpd /opt/openssl /opt/nghttp2 /opt/apr /opt/apr-util /opt/pcre
-	cd ${hexopatch}
-	node uninstall
-	rm -rf ${hexopatch}
-	rm -rf /usr/local/n
+	#cd ${hexopatch}
+	#node uninstall
+	#rm -rf ${hexopatch}
+	#rm -rf /usr/local/n
 	rm /usr/bin/node
-	apt-get remove npm -y
-	apt-get purge npm
+	rm /usr/bin/httpd
+	rm /usr/bin/apachectl
+	#apt-get remove npm -y
+	#apt-get purge npm
     echo "Uninstall Complete!"
 }
 
