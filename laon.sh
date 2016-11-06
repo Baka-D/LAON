@@ -153,7 +153,7 @@ install_openssl(){
     rm OpenSSL*.tar.gz
     mv *openssl* openssl
     cd openssl
-    ./config --prefix=/opt/openssl enable-shared
+    ./config --prefix=/opt/openssl --enable-shared
     make && make install
 }
 
