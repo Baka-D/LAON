@@ -3,14 +3,14 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
 #   System Required:  Ubuntu 12+                                  #
-#   One click Install Apache+OpenSSL+Nghttp2+Node.JS+HEXO         #
-# Author: Baka-Network <contact@baka.network>                     #
+#   One click Install Apache+OpenSSL+Nghttp2                      #
+#   Author: Baka-Network <contact@baka.network>                   #
 #=================================================================#
 
 clear
 echo
 echo "#############################################################"
-echo "# One click Install Apache+OpenSSL+Nghttp2+Node.JS+HEXO     #"
+echo "# One click Install Apache+OpenSSL+Nghttp2                  #"
 echo "# Author: Baka-Network <contact@baka.network>               #"
 echo "#############################################################"
 echo
@@ -24,7 +24,6 @@ echo "# The script will install Apr-Util in /opt/apr-util         #"
 echo "# The script will install OpenSSL in /opt/openssl           #"
 echo "# The script will install Nghttp2 in /opt/nghttp2           #"
 echo "# The script will install Pcre in /opt/pcre                 #"
-echo "# The script will install your HEXO in /var/www/blog        #"
 echo "#############################################################"
 echo
 
@@ -137,7 +136,7 @@ install_pcre(){
 # Install Nghttp2
 install_nghttp2(){
     echo "Installing Nghttp2"
-    cd .. && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v1.14.1/nghttp2-${nh2version}.tar.gz
+    cd .. && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
     tar -zxf nghttp2*.tar.gz
     rm nghttp2*.tar.gz
     cd nghttp2*
