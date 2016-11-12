@@ -113,17 +113,6 @@ install_pcre(){
     make && make install
 }
 
-# Install Nghttp2
-install_nghttp2(){
-    echo "Installing Nghttp2"
-    cd .. && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
-    tar -zxf nghttp2*.tar.gz
-    rm nghttp2*.tar.gz
-    cd nghttp2*
-    ./configure --prefix=/opt/nghttp2
-    make && make install
-}
-
 # Install OpenSSL
 install_openssl(){
     echo "Installing OpenSSL"
@@ -133,6 +122,17 @@ install_openssl(){
     mv *openssl* openssl
     cd openssl
     ./config --prefix=/opt/openssl enable-shared
+    make && make install
+}
+
+# Install Nghttp2
+install_nghttp2(){
+    echo "Installing Nghttp2"
+    cd .. && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
+    tar -zxf nghttp2*.tar.gz
+    rm nghttp2*.tar.gz
+    cd nghttp2*
+    ./configure --prefix=/opt/nghttp2
     make && make install
 }
 
@@ -188,8 +188,8 @@ install_LAON(){
     install_apr_util
     install_zlib
     install_pcre
-    install_nghttp2
     install_openssl
+    install_nghttp2
     install_apache
     #install_hexo
     config
