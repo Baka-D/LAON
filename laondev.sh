@@ -87,7 +87,7 @@ install_apr(){
     git clone https://github.com/apache/apr -b trunk
     cd apr
     ./buildconf
-    ./configure --prefix=/opt/apr
+    ./configure --prefix=/opt/apr --with-expat
     make && make install
 }
 
@@ -144,7 +144,7 @@ install_apache(){
     cd httpd
     ln -s /tmp/LAON/apr srclib/apr
     ./buildconf
-    ./configure --prefix=/opt/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/apr --with-apr-util=/opt/apr-util --with-pcre=/opt/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/nghttp2 --with-ssl=/opt/openssl --with-crypto --enable-ssl-ct
+    ./configure --prefix=/opt/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/apr --with-pcre=/opt/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/nghttp2 --with-ssl=/opt/openssl --with-crypto --enable-ssl-ct
     make && make install
 }
 
