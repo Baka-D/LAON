@@ -71,7 +71,7 @@ pre_install(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
     #Install necessary dependencies
-    apt-get update -y && apt-get install build-essential git unzip gcc make automake python autoconf libtool* -y
+    apt-get update -y && apt-get install build-essential git unzip gcc make automake python autoconf libtool* expat -y
 }
 
 # Making File-Cache Dir
@@ -87,7 +87,7 @@ install_apr(){
     git clone https://github.com/apache/apr -b trunk
     cd apr
     ./buildconf
-    ./configure --prefix=/opt/apr --with-expat
+    ./configure --prefix=/opt/apr
     make && make install
 }
 
