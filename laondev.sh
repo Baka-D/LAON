@@ -71,7 +71,9 @@ pre_install(){
     echo "Press any key to start...or Press Ctrl+C to cancel"
     char=`get_char`
     #Install necessary dependencies
-    apt-get update -y && apt-get install build-essential git unzip gcc make automake python autoconf libtool* libexpat1-dev -y
+    apt-get update -y
+    apt-get upgrade -y
+    apt-get install build-essential git unzip gcc make automake python autoconf libtool* libexpat1-dev -y
 }
 
 # Making File-Cache Dir
