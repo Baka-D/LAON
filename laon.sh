@@ -46,16 +46,16 @@ fi
 pre_install(){
     # Set Apache Version
     echo "Please input the version of Apache:"
-    read -p "(Default Version: 2.4.23 ):" apaversion
-    [ -z "${apaversion}" ] && apaversion="2.4.23"
+    read -p "(Default Version: 2.4.25 ):" apaversion
+    [ -z "${apaversion}" ] && apaversion="2.4.25"
     # Set OpenSSL Version
     echo -e "Please input the version of OpenSSL [X_X_Xx eg:1_0_2j]:"
     read -p "(Default Version: 1.0.2j[1_0_2j,X_X_Xx eg:1_0_2j]):" oslversion
     [ -z "$oslversion" ] && oslversion="1_0_2j"
     # Set Nghttp2 Version
     echo -e "Please input the version of Nghttp2:"
-    read -p "(Default Version: 1.14.1):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.14.1"
+    read -p "(Default Version: 1.17.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.17.0"
 	# Set Node.js Version
     #echo "Please input the version of Node.js:"
     #read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
