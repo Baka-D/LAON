@@ -126,7 +126,7 @@ install_openssl(){
     cd openssl
     git submodule init
     git submodule update
-    ./config --prefix=/opt/openssl enable-shared enable-zlib enable-tls1_3
+    ./config --prefix=/opt/openssl enable-zlib enable-tls1_3
     make && make install
    
 }
