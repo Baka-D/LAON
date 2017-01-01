@@ -118,13 +118,17 @@ install_pcre(){
 # Install OpenSSL
 install_openssl(){
     echo "Installing OpenSSL"
-    cd .. && wget --no-check-certificate https://github.com/openssl/openssl/archive/OpenSSL_${oslversion}.tar.gz
-    tar -zxf OpenSSL*.tar.gz
-    rm OpenSSL*.tar.gz
-    mv *openssl* openssl
+    #cd .. && wget --no-check-certificate https://github.com/openssl/openssl/archive/OpenSSL_${oslversion}.tar.gz
+    #tar -zxf OpenSSL*.tar.gz
+    #rm OpenSSL*.tar.gz
+    #mv *openssl* openssl
+    git clone https://github.com/openssl/openssl
     cd openssl
-    ./config --prefix=/opt/openssl enable-shared
+    git submodule init
+    git submodule update
+    ./config --prefix=/opt/openssl enable-shared enable-zlib enable-tls1_3
     make && make install
+   
 }
 
 # Install Nghttp2
