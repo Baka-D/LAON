@@ -1,5 +1,5 @@
 # LAON
-A bash script base on Ubuntu helps you to install Apache Web Server with OpenSSL.
+A one-click script that can help you install httpd(Apache)+OpenSSL+Nghttp2 easily
 # Usage
 1. Install the stable Httpd with OpenSSL
 <code>chmod +x laon.sh && bash laon.sh</code>
