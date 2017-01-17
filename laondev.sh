@@ -18,12 +18,7 @@ echo
 echo
 echo "#############################################################"
 echo "# NOTICE:                                                   #"
-echo "# The script will install Apache in /opt/httpd              #"
-echo "# The script will install Apr in /opt/apr                   #"
-echo "# The script will install Apr-Util in /opt/apr-util         #"
-echo "# The script will install OpenSSL in /opt/openssl           #"
-echo "# The script will install Nghttp2 in /opt/nghttp2           #"
-echo "# The script will install Pcre in /opt/pcre                 #"
+echo "# The script will install all the things in /opt/LAON       #"
 echo "#############################################################"
 echo
 
@@ -78,18 +73,18 @@ pre_install(){
 
 # Making File-Cache Dir
 make_dir(){
-    mkdir /tmp/LAON
-    cd /tmp/LAON
+    mkdir /opt/LAON
+    mkdir /opt/LAON/tmp
+    cd /opt/LAON/tmp
 }
 
 # Install Apr
 install_apr(){
     echo "Installing Apr"
-    cd /tmp/LAON
     git clone https://github.com/apache/apr -b trunk
     cd apr
     ./buildconf
-    ./configure --prefix=/opt/apr
+    ./configure --prefix=/opt/LAON/apr
     make && make install
 }
 
@@ -111,7 +106,7 @@ install_pcre(){
     tar -zxf pcre-8.38.tar.gz
     rm pcre-8.38.tar.gz
     cd pcre-8.38
-    ./configure --prefix=/opt/pcre
+    ./configure --prefix=/opt/LAON/pcre
     make && make install
 }
 
@@ -122,11 +117,11 @@ install_openssl(){
     #tar -zxf OpenSSL*.tar.gz
     #rm OpenSSL*.tar.gz
     #mv *openssl* openssl
-    git clone https://github.com/openssl/openssl
+    cd .. && git clone https://github.com/openssl/openssl
     cd openssl
     git submodule init
     git submodule update
-    ./config --prefix=/opt/openssl enable-zlib enable-tls1_3
+    ./config --prefix=/opt/LAON/openssl enable-zlib enable-tls1_3
     make && make install
    
 }
@@ -138,7 +133,7 @@ install_nghttp2(){
     tar -zxf nghttp2*.tar.gz
     rm nghttp2*.tar.gz
     cd nghttp2*
-    ./configure --prefix=/opt/nghttp2
+    ./configure --prefix=/opt/LAON/nghttp2
     make && make install
 }
 
@@ -150,7 +145,7 @@ install_apache(){
     cd httpd
     ln -s /tmp/LAON/apr srclib/apr
     ./buildconf
-    ./configure --prefix=/opt/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/apr --with-pcre=/opt/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/nghttp2 --with-ssl=/opt/openssl --with-crypto --enable-ssl-ct
+    ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/apr --with-pcre=/opt/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/nghttp2 --with-ssl=/opt/openssl --with-crypto --enable-ssl-ct
     make && make install
 }
 
@@ -171,16 +166,16 @@ config(){
     echo "Configing"
     #chown www-root:www-root /var/www/blog/public -R
     #chmod 755 /var/www/blog/public -R
-    cp /opt/openssl/lib/* /usr/lib/ -R -f
-    cp /opt/httpd/bin/* /usr/bin/ -R -f
-    cp /opt/nghttp2/lib/* /usr/lib/ -R -f
+    cp /opt/LAON/openssl/lib/* /usr/lib/ -R -f
+    cp /opt/LAON/httpd/bin/* /usr/bin/ -R -f
+    cp /opt/LAON/nghttp2/lib/* /usr/lib/ -R -f
     
 }
 
 # Delete Downloaded File
 delete_files(){
     echo "Deleting useless files"
-    rm -rf /tmp/LAON
+    rm -rf /opt/LAON/tmp
     echo "Install Complete!"
 }
 
@@ -204,12 +199,12 @@ install_LAON(){
 
 # Uninstall LAON
 uninstall_LAON(){
-    rm -rf /opt/httpd /opt/openssl /opt/nghttp2 /opt/apr /opt/apr-util /opt/pcre
+    rm -rf /opt/LAON
 	#cd ${hexopatch}
 	#node uninstall
 	#rm -rf ${hexopatch}
 	#rm -rf /usr/local/n
-	rm /usr/bin/node
+	#rm /usr/bin/node
 	rm /usr/bin/httpd
 	rm /usr/bin/apachectl
 	#apt-get remove npm -y
