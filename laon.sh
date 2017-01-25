@@ -18,12 +18,7 @@ echo
 echo
 echo "#############################################################"
 echo "# NOTICE:                                                   #"
-echo "# The script will install Apache in /opt/httpd              #"
-echo "# The script will install Apr in /opt/apr                   #"
-echo "# The script will install Apr-Util in /opt/apr-util         #"
-echo "# The script will install OpenSSL in /opt/openssl           #"
-echo "# The script will install Nghttp2 in /opt/nghttp2           #"
-echo "# The script will install Pcre in /opt/pcre                 #"
+echo "# The script will install all the things in /opt/LAON       #"
 echo "#############################################################"
 echo
 
@@ -54,8 +49,8 @@ pre_install(){
     [ -z "$oslversion" ] && oslversion="1_0_2j"
     # Set Nghttp2 Version
     echo -e "Please input the version of Nghttp2:"
-    read -p "(Default Version: 1.18.0):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.18.0"
+    read -p "(Default Version: 1.19.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.19.0"
 	# Set Node.js Version
     #echo "Please input the version of Node.js:"
     #read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
@@ -134,17 +129,6 @@ install_pcre(){
     make && make install
 }
 
-# Install Nghttp2
-install_nghttp2(){
-    echo "Installing Nghttp2"
-    cd .. && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
-    tar -zxf nghttp2*.tar.gz
-    rm nghttp2*.tar.gz
-    cd nghttp2*
-    ./configure --prefix=/opt/LAON/nghttp2
-    make && make install
-}
-
 # Install OpenSSL
 install_openssl(){
     echo "Installing OpenSSL"
@@ -157,6 +141,17 @@ install_openssl(){
     make && make install
 }
 
+# Install Nghttp2
+install_nghttp2(){
+    echo "Installing Nghttp2"
+    cd .. && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
+    tar -zxf nghttp2*.tar.gz
+    rm nghttp2*.tar.gz
+    cd nghttp2*
+    ./configure --prefix=/opt/LAON/nghttp2
+    make && make install
+}
+
 # Install Apache
 install_apache(){
     echo "Installing Apache"
@@ -164,8 +159,8 @@ install_apache(){
     tar -zxf ${apaversion}.tar.gz
     rm ${apaversion}.tar.gz
     cd httpd*
-    ln -s /tmp/LAON/apr srclib/apr
-    ln -s /tmp/LAON/apr-util srclib/apr-util
+    ln -s /opt/LAON/tmp/apr srclib/apr
+    ln -s /opt/LAON/tmp/apr-util srclib/apr-util
     ./buildconf
     ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/LAON/apr --with-apr-util=/opt/LAON/apr-util --with-pcre=/opt/LAON/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/LAON/nghttp2 --with-ssl=/opt/LAON/openssl --with-crypto
     make && make install
@@ -211,8 +206,8 @@ install_LAON(){
     install_apr_util
     install_zlib
     install_pcre
-    install_nghttp2
     install_openssl
+    install_nghttp2
     install_apache
     #install_hexo
     config
