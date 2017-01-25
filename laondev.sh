@@ -45,8 +45,8 @@ pre_install(){
     [ -z "$oslversion" ] && oslversion="1_1_0c"
     # Set Nghttp2 Version
     echo -e "Please input the version of Nghttp2:"
-    read -p "(Default Version: 1.17.0):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.17.0"
+    read -p "(Default Version: 1.19.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.19.0"
 	# Set Node.js Version
     #echo "Please input the version of Node.js:"
     #read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
