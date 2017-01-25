@@ -39,10 +39,6 @@ fi
 }
 
 pre_install(){
-    # Set OpenSSL Version
-    echo -e "Please input the version of OpenSSL [X_X_Xx eg:1_1_0c]:"
-    read -p "(Default Version: 1_1_0c[1_1_0c,X_X_Xx eg:1_1_0c]):" oslversion
-    [ -z "$oslversion" ] && oslversion="1_1_0c"
     # Set Nghttp2 Version
     echo -e "Please input the version of Nghttp2:"
     read -p "(Default Version: 1.19.0):" nh2version
@@ -121,9 +117,8 @@ install_openssl(){
     cd openssl
     git submodule init
     git submodule update
-    ./config --prefix=/opt/LAON/openssl enable-zlib enable-tls1_3
+    ./config --prefix=/opt/LAON/openssl enable-zlib enable-tls1_3 enable-shared
     make && make install
-   
 }
 
 # Install Nghttp2
