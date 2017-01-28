@@ -121,7 +121,7 @@ install_zlib(){
 # Install Pcre
 install_pcre(){
     echo "Installing Pcre"
-    cd .. && wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz
+    cd .. && wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz
     tar -zxf pcre-8.38.tar.gz
     rm pcre-8.38.tar.gz
     cd pcre-8.38
