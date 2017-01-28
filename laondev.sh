@@ -138,7 +138,7 @@ install_apache(){
     cd ..
     git clone https://github.com/apache/httpd -b trunk
     cd httpd
-    ln -s /tmp/LAON/apr srclib/apr
+    ln -s /opt/LAON/tmp/apr srclib/apr
     ./buildconf
     ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/LAON/apr --with-pcre=/opt/LAON/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/LAON/nghttp2 --with-ssl=/opt/LAON/openssl --with-crypto --enable-ssl-ct
     make && make install
