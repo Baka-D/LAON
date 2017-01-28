@@ -99,9 +99,9 @@ install_zlib(){
 install_pcre(){
     echo "Installing Pcre"
     cd .. && wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz
-    tar -zxf pcre-8.38.tar.gz
-    rm pcre-8.38.tar.gz
-    cd pcre-8.38
+    tar -zxf pcre-*.tar.gz
+    rm pcre-*.tar.gz
+    cd pcre-*
     ./configure --prefix=/opt/LAON/pcre
     make && make install
 }
