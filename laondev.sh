@@ -191,7 +191,7 @@ install_LAON(){
     install_apache
     #install_hexo
     config
-    delete_files
+    #delete_files
 }
 
 # Uninstall LAON
