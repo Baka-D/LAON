@@ -110,10 +110,10 @@ install_apr_util(){
 # Install Zlib
 install_zlib(){
     echo "Installing Zlib"
-    cd .. && wget http://zlib.net/zlib-1.2.8.tar.gz
-    tar -zxf zlib-1.2.8.tar.gz
-    rm zlib-1.2.8.tar.gz
-    cd zlib-1.2.8
+    cd .. && wget http://zlib.net/zlib-1.2.11.tar.gz
+    tar -zxf zlib-1.2.11.tar.gz
+    rm zlib-1.2.11.tar.gz
+    cd zlib-1.2.11
     ./configure --prefix=/usr/local
     make && make install
 }
