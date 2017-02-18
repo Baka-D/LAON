@@ -118,10 +118,7 @@ install_openssl(){
     tar -zxf OpenSSL*.tar.gz
     rm OpenSSL*.tar.gz
     mv *openssl* openssl
-    #cd .. && git clone https://github.com/openssl/openssl
     cd openssl
-    #git submodule init
-    #git submodule update
     ./config --prefix=/opt/LAON/openssl enable-zlib enable-tls1_3 enable-shared
     make && make install
 }
