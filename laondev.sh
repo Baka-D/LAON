@@ -92,10 +92,10 @@ install_apr(){
 # Install Zlib
 install_zlib(){
     echo "Installing Zlib"
-    cd /opt/LAON/tmp && wget http://zlib.net/zlib-1.2.8.tar.gz
-    tar -zxf zlib-1.2.8.tar.gz
-    rm zlib-1.2.8.tar.gz
-    cd zlib-1.2.8
+    cd /opt/LAON/tmp && wget http://zlib.net/zlib-1.2.11.tar.gz
+    tar -zxf zlib-1.*.tar.gz
+    rm zlib-1.*.tar.gz
+    cd zlib-1.*
     ./configure --prefix=/usr/local
     make && make install
 }
