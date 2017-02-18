@@ -119,7 +119,7 @@ install_openssl(){
     rm OpenSSL*.tar.gz
     mv *openssl* openssl
     cd openssl
-    ./config --prefix=/opt/LAON/openssl enable-zlib enable-tls1_3 enable-shared
+    ./config --prefix=/opt/LAON/openssl enable-zlib enable-shared
     make && make install
 }
 
