@@ -39,6 +39,10 @@ fi
 }
 
 pre_install(){
+    # Set OpenSSL Version
+    echo -e "Please input the version of OpenSSL [X_X_Xx eg:1_1_0e]:"
+    read -p "(Default Version: 1.1.0e):" oslversion
+    [ -z "$oslversion" ] && oslversion="1_1_0e"
     # Set Nghttp2 Version
     echo -e "Please input the version of Nghttp2:"
     read -p "(Default Version: 1.19.0):" nh2version
@@ -109,14 +113,14 @@ install_pcre(){
 # Install OpenSSL
 install_openssl(){
     echo "Installing OpenSSL"
-    #cd .. && wget --no-check-certificate https://github.com/openssl/openssl/archive/OpenSSL_${oslversion}.tar.gz
-    #tar -zxf OpenSSL*.tar.gz
-    #rm OpenSSL*.tar.gz
-    #mv *openssl* openssl
-    cd .. && git clone https://github.com/openssl/openssl
+    cd .. && wget --no-check-certificate https://github.com/openssl/openssl/archive/OpenSSL_${oslversion}.tar.gz
+    tar -zxf OpenSSL*.tar.gz
+    rm OpenSSL*.tar.gz
+    mv *openssl* openssl
+    #cd .. && git clone https://github.com/openssl/openssl
     cd openssl
-    git submodule init
-    git submodule update
+    #git submodule init
+    #git submodule update
     ./config --prefix=/opt/LAON/openssl enable-zlib enable-tls1_3 enable-shared
     make && make install
 }
