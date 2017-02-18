@@ -81,6 +81,7 @@ make_dir(){
 # Install Apr
 install_apr(){
     echo "Installing Apr"
+    cd /opt/LAON/tmp
     git clone https://github.com/apache/apr -b trunk
     cd apr
     ./buildconf
@@ -91,7 +92,7 @@ install_apr(){
 # Install Zlib
 install_zlib(){
     echo "Installing Zlib"
-    cd .. && wget http://zlib.net/zlib-1.2.8.tar.gz
+    cd /opt/LAON/tmp && wget http://zlib.net/zlib-1.2.8.tar.gz
     tar -zxf zlib-1.2.8.tar.gz
     rm zlib-1.2.8.tar.gz
     cd zlib-1.2.8
@@ -102,7 +103,7 @@ install_zlib(){
 # Install Pcre
 install_pcre(){
     echo "Installing Pcre"
-    cd .. && wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz
+    cd /opt/LAON/tmp && wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz
     tar -zxf pcre-*.tar.gz
     rm pcre-*.tar.gz
     cd pcre-*
@@ -113,7 +114,7 @@ install_pcre(){
 # Install OpenSSL
 install_openssl(){
     echo "Installing OpenSSL"
-    cd .. && wget --no-check-certificate https://github.com/openssl/openssl/archive/OpenSSL_${oslversion}.tar.gz
+    cd /opt/LAON/tmp && wget --no-check-certificate https://github.com/openssl/openssl/archive/OpenSSL_${oslversion}.tar.gz
     tar -zxf OpenSSL*.tar.gz
     rm OpenSSL*.tar.gz
     mv *openssl* openssl
@@ -128,7 +129,7 @@ install_openssl(){
 # Install Nghttp2
 install_nghttp2(){
     echo "Installing Nghttp2"
-    cd .. && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
+    cd /opt/LAON/tmp && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
     tar -zxf nghttp2*.tar.gz
     rm nghttp2*.tar.gz
     cd nghttp2*
@@ -139,7 +140,7 @@ install_nghttp2(){
 # Install Apache
 install_apache(){
     echo "Installing Apache"
-    cd ..
+    cd /opt/LAON/tmp
     git clone https://github.com/apache/httpd -b trunk
     cd httpd
     ln -s /opt/LAON/tmp/apr srclib/apr
