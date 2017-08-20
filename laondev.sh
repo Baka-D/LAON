@@ -39,20 +39,16 @@ fi
 }
 
 pre_install(){
-    # Set OpenSSL Version
-    echo -e "Please input the version of OpenSSL [X_X_Xx eg:1_1_0e]:"
-    read -p "(Default Version: 1.1.0e):" oslversion
-    [ -z "$oslversion" ] && oslversion="1_1_0e"
     # Set Nghttp2 Version
-    echo -e "Please input the version of Nghttp2:"
-    read -p "(Default Version: 1.19.0):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.19.0"
+    # echo -e "Please input the version of Nghttp2:"
+    # read -p "(Default Version: 1.19.0):" nh2version
+    # [ -z "$nh2version" ] && nh2version="1.19.0"
 	# Set Node.js Version
-    #echo "Please input the version of Node.js:"
-    #read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
-    #[ -z "${nodeversion}" ] && nodeversion="stable"
+    # echo "Please input the version of Node.js:"
+    # read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
+    # [ -z "${nodeversion}" ] && nodeversion="stable"
 	# Set HEXO Directory
-    #[ -z "${hexopatch}" ] && hexopatch="/var/www/blog"
+    # [ -z "${hexopatch}" ] && hexopatch="/var/www/blog"
     get_char(){
         SAVEDSTTY=`stty -g`
         stty -echo
@@ -114,22 +110,23 @@ install_pcre(){
 # Install OpenSSL
 install_openssl(){
     echo "Installing OpenSSL"
-    cd /opt/LAON/tmp && wget --no-check-certificate https://github.com/openssl/openssl/archive/OpenSSL_${oslversion}.tar.gz
-    tar -zxf OpenSSL*.tar.gz
-    rm OpenSSL*.tar.gz
-    mv *openssl* openssl
+    cd /opt/LAON/tmp && git clone https://github.com/openssl/openssl
     cd openssl
-    ./config --prefix=/opt/LAON/openssl enable-zlib enable-shared
+    ./config --prefix=/opt/LAON/openssl enable-zlib enable-shared enable-tls1_3
     make && make install
 }
 
 # Install Nghttp2
 install_nghttp2(){
     echo "Installing Nghttp2"
-    cd /opt/LAON/tmp && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
-    tar -zxf nghttp2*.tar.gz
-    rm nghttp2*.tar.gz
-    cd nghttp2*
+    cd /opt/LAON/tmp && git clone https://github.com/nghttp2/nghttp2
+    #tar -zxf nghttp2*.tar.gz
+    #rm nghttp2*.tar.gz
+    cd nghttp2
+    git submodule update --init
+    autoreconf -i
+    automake
+    autoconf
     ./configure --prefix=/opt/LAON/nghttp2
     make && make install
 }
