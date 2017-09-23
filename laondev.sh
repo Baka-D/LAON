@@ -40,9 +40,9 @@ fi
 
 pre_install(){
     # Set Nghttp2 Version
-    # echo -e "Please input the version of Nghttp2:"
-    # read -p "(Default Version: 1.19.0):" nh2version
-    # [ -z "$nh2version" ] && nh2version="1.19.0"
+    echo -e "Please input the version of Nghttp2:"
+    read -p "(Default Version: 1.26.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.26.0"
 	# Set Node.js Version
     # echo "Please input the version of Node.js:"
     # read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
@@ -119,14 +119,10 @@ install_openssl(){
 # Install Nghttp2
 install_nghttp2(){
     echo "Installing Nghttp2"
-    cd /opt/LAON/tmp && git clone https://github.com/nghttp2/nghttp2
-    #tar -zxf nghttp2*.tar.gz
-    #rm nghttp2*.tar.gz
-    cd nghttp2
-    git submodule update --init
-    autoreconf -i
-    automake
-    autoconf
+    cd /opt/LAON/tmp && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
+    tar -zxf nghttp2*.tar.gz
+    rm nghttp2*.tar.gz
+    cd nghttp2*
     ./configure --prefix=/opt/LAON/nghttp2
     make && make install
 }
