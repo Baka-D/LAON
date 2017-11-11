@@ -161,7 +161,7 @@ install_apache(){
             exit 1
         fi
     elif [ "$chinaornot" = "y" ]; then 
-        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/httpd.tar.gz && tar -zxf httpd.tar.gz; then
+        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/httpd.tar.gz; then
             echo -e "[${red}Error${plain}] Failed to download Httpd source files!"
             else tar -zxf httpd.tar.gz
 	    exit 1
