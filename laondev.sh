@@ -9,17 +9,17 @@ export PATH
 
 clear
 echo
-echo "#############################################################"
-echo "# One click Install Apache+OpenSSL+Nghttp2                  #"
-echo "# Author: Baka-Network <contact@baka.network>               #"
-echo "#############################################################"
+echo "################################################################"
+echo "# One click Install Apache+OpenSSL+Nghttp2                     #"
+echo "# Author: Baka-Network(Baka-D) <contact@baka.network>          #"
+echo "################################################################"
 echo
 
 echo
-echo "#############################################################"
-echo "# NOTICE:                                                   #"
-echo "# The script will install all the things in /opt/LAON       #"
-echo "#############################################################"
+echo "################################################################"
+echo "# NOTICE:                                                      #"
+echo "# The script will install all the softwares into /opt/LAON.    #"
+echo "################################################################"
 echo
 
 # Make sure only root can run our script
@@ -41,8 +41,12 @@ fi
 pre_install(){
     # Set Nghttp2 Version
     echo -e "Please input the version of Nghttp2:"
-    read -p "(Default Version: 1.26.0):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.26.0"
+    read -p "(Default Version: 1.27.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.27.0"
+    # Get Location
+    echo -e "Is this machine in Mainland China? (y/n):"
+    read -p "(Default :n):" chinaornot
+    [ -z "$chinaornot" ] && chinaornot="n"
 	# Set Node.js Version
     # echo "Please input the version of Node.js:"
     # read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
@@ -110,16 +114,35 @@ install_pcre(){
 # Install OpenSSL
 install_openssl(){
     echo "Installing OpenSSL"
-    cd /opt/LAON/tmp && git clone https://github.com/openssl/openssl
+    cd /opt/LAON/tmp 
+    if [ "$chinaornot" = "n" ]; then 
+        if ! git clone https://github.com/openssl/openssl; then
+	    echo -e "[${red}Error${plain}] Failed to download OpenSSL source files!"
+            exit 1
+        fi
+    elif [ "$chinaornot" = "y" ]; then 
+        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/openssl.tar.gz && tar -zxf openssl.tar.gz; then
+            echo -e "[${red}Error${plain}] Failed to download OpenSSL source files!"
+            exit 1
+        fi
+    fi
     cd openssl
     ./config --prefix=/opt/LAON/openssl enable-zlib enable-shared enable-tls1_3
-    make && make install
+    if ! make; then
+        echo -e "[${red}Error${plain}] Failed to build OpenSSL!"
+        exit 1
+    fi
+    make install
 }
 
 # Install Nghttp2
 install_nghttp2(){
     echo "Installing Nghttp2"
-    cd /opt/LAON/tmp && wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz
+    cd /opt/LAON/tmp 
+    if ! wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz; then
+        echo -e "[${red}Error${plain}] Failed to download Nghttp2!"
+        exit 1
+    fi
     tar -zxf nghttp2*.tar.gz
     rm nghttp2*.tar.gz
     cd nghttp2*
@@ -131,12 +154,26 @@ install_nghttp2(){
 install_apache(){
     echo "Installing Apache"
     cd /opt/LAON/tmp
-    git clone https://github.com/apache/httpd -b trunk
+    if [ "$chinaornot" = "n" ]; then 
+        if ! git clone https://github.com/apache/httpd -b trunk; then
+	    echo -e "[${red}Error${plain}] Failed to download Httpd source files!"
+            exit 1
+        fi
+    elif [ "$chinaornot" = "y" ]; then 
+        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/httpd.tar.gz && tar -zxf httpd.tar.gz; then
+            echo -e "[${red}Error${plain}] Failed to download Httpd source files!"
+            exit 1
+        fi
+    fi
     cd httpd
     ln -s /opt/LAON/tmp/apr srclib/apr
     ./buildconf
     ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/LAON/apr --with-pcre=/opt/LAON/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/LAON/nghttp2 --with-ssl=/opt/LAON/openssl --with-crypto --enable-ssl-ct
-    make && make install
+    if ! make; then
+        echo -e "[${red}Error${plain}] Failed to build Httpd!"
+        exit 1
+    fi
+    make install
 }
 
 # Install HEXO
@@ -176,7 +213,7 @@ install_LAON(){
     pre_install
     make_dir
     install_apr
-    install_apr_util
+    #install_apr_util
     install_zlib
     install_pcre
     install_openssl
@@ -203,4 +240,14 @@ uninstall_LAON(){
 }
 
 # Initialization step
-install_LAON
+action=$1
+[ -z $1 ] && action=install
+case "$action" in
+    install|uninstall)
+        ${action}_LAON
+        ;;
+    *)
+        echo "Arguments error! [${action}]"
+        echo "Usage: `basename $0` [install|uninstall]"
+    ;;
+esac
