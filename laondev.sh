@@ -40,7 +40,7 @@ fi
 
 pre_install(){
     # Set Nghttp2 Version
-    echo -e "Please input the version of Nghttp2:"
+    echo -e "Please enter the version number you want to install for Nghttp2:"
     read -p "(Default Version: 1.27.0):" nh2version
     [ -z "$nh2version" ] && nh2version="1.27.0"
     # Get Location
@@ -121,9 +121,10 @@ install_openssl(){
             exit 1
         fi
     elif [ "$chinaornot" = "y" ]; then 
-        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/openssl.tar.gz && tar -zxf openssl.tar.gz; then
+        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/openssl.tar.gz; then
             echo -e "[${red}Error${plain}] Failed to download OpenSSL source files!"
-            exit 1
+            else tar -zxf openssl.tar.gz
+	    exit 1
         fi
     fi
     cd openssl
@@ -162,7 +163,8 @@ install_apache(){
     elif [ "$chinaornot" = "y" ]; then 
         if ! wget --no-check-certificate https://files.baka.org.cn/LAON/httpd.tar.gz && tar -zxf httpd.tar.gz; then
             echo -e "[${red}Error${plain}] Failed to download Httpd source files!"
-            exit 1
+            else tar -zxf httpd.tar.gz
+	    exit 1
         fi
     fi
     cd httpd
