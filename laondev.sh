@@ -82,7 +82,18 @@ make_dir(){
 install_apr(){
     echo "Installing Apr"
     cd /opt/LAON/tmp
-    git clone https://github.com/apache/apr -b trunk
+    if [ "$chinaornot" = "n" ]; then 
+        if ! git clone https://github.com/apache/apr -b trunk; then
+	    echo -e "[${red}Error${plain}] Failed to download Apr source files!"
+            exit 1
+        fi
+    elif [ "$chinaornot" = "y" ]; then 
+        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/apr.tar.gz; then
+            echo -e "[${red}Error${plain}] Failed to download Apr source files!"
+            else tar -zxf apr.tar.gz
+	    exit 1
+        fi
+    fi
     cd apr
     ./buildconf
     ./configure --prefix=/opt/LAON/apr
@@ -103,7 +114,7 @@ install_zlib(){
 # Install Pcre
 install_pcre(){
     echo "Installing Pcre"
-    cd /opt/LAON/tmp && wget https://ftp.pcre.org/pub/pcre/pcre-8.40.tar.gz
+    cd /opt/LAON/tmp && wget https://ftp.pcre.org/pub/pcre/pcre-8.41.tar.gz
     tar -zxf pcre-*.tar.gz
     rm pcre-*.tar.gz
     cd pcre-*
@@ -140,12 +151,19 @@ install_openssl(){
 install_nghttp2(){
     echo "Installing Nghttp2"
     cd /opt/LAON/tmp 
+    if [ "$chinaornot" = "n" ]; then 
     if ! wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz; then
-        echo -e "[${red}Error${plain}] Failed to download Nghttp2!"
-        exit 1
+	    echo -e "[${red}Error${plain}] Failed to download Nghttp2 source files!"
+            exit 1
+        fi
+    elif [ "$chinaornot" = "y" ]; then 
+        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/nghttp2.tar.gz; then
+            echo -e "[${red}Error${plain}] Failed to download Nghttp2 source files!"
+            else tar -zxf nghttp2.tar.gz
+	    exit 1
+        fi
     fi
-    tar -zxf nghttp2*.tar.gz
-    rm nghttp2*.tar.gz
+    rm nghttp2.tar.gz
     cd nghttp2*
     ./configure --prefix=/opt/LAON/nghttp2
     make && make install
@@ -170,7 +188,7 @@ install_apache(){
     cd httpd
     ln -s /opt/LAON/tmp/apr srclib/apr
     ./buildconf
-    ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/LAON/apr --with-pcre=/opt/LAON/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/LAON/nghttp2 --with-ssl=/opt/LAON/openssl --with-crypto --enable-ssl-ct
+    ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-md --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/LAON/apr --with-pcre=/opt/LAON/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/LAON/nghttp2 --with-ssl=/opt/LAON/openssl --with-crypto --enable-ssl-ct
     if ! make; then
         echo -e "[${red}Error${plain}] Failed to build Httpd!"
         exit 1
@@ -234,8 +252,7 @@ uninstall_LAON(){
 	#rm -rf ${hexopatch}
 	#rm -rf /usr/local/n
 	#rm /usr/bin/node
-	rm /usr/bin/httpd
-	rm /usr/bin/apachectl
+	rm /usr/bin/ab  /usr/bin/apachectl  /usr/bin/apxs  /usr/bin/checkgid  /usr/bin/ctlogconfig  /usr/bin/dbmmanage /usr/bin/fcgistarter  /usr/bin/firehose  /usr/bin/htcacheclean  /usr/bin/htdbm  /usr/bin/htdigest  /usr/bin/htpasswd  /usr/bin/httpd  /usr/bin/httxt2dbm  /usr/bin/logresolve  /usr/bin/rotatelogs
 	#apt-get remove npm -y
 	#apt-get purge npm
     echo "Uninstall Complete!"
