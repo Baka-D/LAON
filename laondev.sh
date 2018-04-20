@@ -41,11 +41,11 @@ fi
 pre_install(){
     # Set Nghttp2 Version
     echo -e "Please enter the version number you want to install for Nghttp2:"
-    read -p "(Default Version: 1.27.0):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.27.0"
-    # Get Location
-    echo -e "Is this machine in Mainland China? (y/n):"
-    read -p "(Default :n):" chinaornot
+    read -p "(Default Version: 1.31.1):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.31.1"
+    # Confirm Location
+    # echo -e "Is this machine in Mainland China? (y/n):"
+    # read -p "(Default :n):" chinaornot
     [ -z "$chinaornot" ] && chinaornot="n"
 	# Set Node.js Version
     # echo "Please input the version of Node.js:"
@@ -159,10 +159,11 @@ install_nghttp2(){
     elif [ "$chinaornot" = "y" ]; then 
         if ! wget --no-check-certificate https://files.baka.org.cn/LAON/nghttp2.tar.gz; then
             echo -e "[${red}Error${plain}] Failed to download Nghttp2 source files!"
-            else tar -zxf nghttp2.tar.gz
+            else
 	    exit 1
         fi
     fi
+    tar -zxf nghttp2*.tar.gz
     rm nghttp2.tar.gz
     cd nghttp2*
     ./configure --prefix=/opt/LAON/nghttp2
@@ -259,14 +260,4 @@ uninstall_LAON(){
 }
 
 # Initialization step
-action=$1
-[ -z $1 ] && action=install
-case "$action" in
-    install|uninstall)
-        ${action}_LAON
-        ;;
-    *)
-        echo "Arguments error! [${action}]"
-        echo "Usage: `basename $0` [install|uninstall]"
-    ;;
-esac
+install_LAON
