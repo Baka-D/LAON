@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
-#   System Required:  Ubuntu 12+                                  #
+#   System Required:  Ubuntu 14+, Debian 7+                       #
 #   One click Install Apache+OpenSSL+Nghttp2                      #
 #   Author: Baka-Network <contact@baka.network>                   #
 #=================================================================#
