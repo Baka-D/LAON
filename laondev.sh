@@ -41,8 +41,8 @@ fi
 pre_install(){
     # Set Nghttp2 Version
     echo -e "Please enter the version number you want to install for Nghttp2:"
-    read -p "(Default Version: 1.31.1):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.31.1"
+    read -p "(Default Version: 1.32.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.32.0"
     # Confirm Location
     # echo -e "Is this machine in Mainland China? (y/n):"
     # read -p "(Default :n):" chinaornot
@@ -189,7 +189,7 @@ install_apache(){
     cd httpd
     ln -s /opt/LAON/tmp/apr srclib/apr
     ./buildconf
-    ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-md --enable-mpm --with-mpm=prefork --enable-rewrite --with-apr=/opt/LAON/apr --with-pcre=/opt/LAON/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/LAON/nghttp2 --with-ssl=/opt/LAON/openssl --with-crypto --enable-ssl-ct
+    ./configure --prefix=/opt/LAON/httpd --enable-deflate --enable-expires --enable-headers --enable-modules=all --enable-so --enable-mpm --with-mpm=event --enable-rewrite --with-apr=/opt/LAON/apr --with-pcre=/opt/LAON/pcre/bin/pcre-config --enable-ssl --enable-rewrite --enable-http2 --with-nghttp2=/opt/LAON/nghttp2 --with-ssl=/opt/LAON/openssl --with-crypto --enable-ssl-ct
     if ! make; then
         echo -e "[${red}Error${plain}] Failed to build Httpd!"
         exit 1
