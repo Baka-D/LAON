@@ -127,7 +127,7 @@ install_openssl(){
     echo "Installing OpenSSL"
     cd /opt/LAON/tmp 
     if [ "$chinaornot" = "n" ]; then 
-        if ! git clone -recurse-submodules https://github.com/openssl/openssl; then
+        if ! git clone --recurse-submodules https://github.com/openssl/openssl; then
 	    echo -e "[${red}Error${plain}] Failed to download OpenSSL source files!"
             exit 1
         fi
