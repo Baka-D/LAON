@@ -46,13 +46,13 @@ pre_install(){
     # Confirm Location
     # echo -e "Is this machine in Mainland China? (y/n):"
     # read -p "(Default :n):" chinaornot
-    [ -z "$chinaornot" ] && chinaornot="n"
+    #[ -z "$chinaornot" ] && chinaornot="n"
 	# Set Node.js Version
     # echo "Please input the version of Node.js:"
     # read -p "(Default Version: stable [eg:stable,lts,6.6.0]):" nodeversion
     # [ -z "${nodeversion}" ] && nodeversion="stable"
 	# Set HEXO Directory
-    # [ -z "${hexopatch}" ] && hexopatch="/var/www/blog"
+    # [ -z "${hexopath}" ] && hexopath="/var/www/blog"
     get_char(){
         SAVEDSTTY=`stty -g`
         stty -echo
@@ -159,13 +159,14 @@ install_nghttp2(){
     elif [ "$chinaornot" = "y" ]; then 
         if ! wget --no-check-certificate https://files.baka.org.cn/LAON/nghttp2.tar.gz; then
             echo -e "[${red}Error${plain}] Failed to download Nghttp2 source files!"
-            else
-	    exit 1
+            exit 1
+	    else
+	        tar -zxf nghttp2.tar.gz
+                rm nghttp2.tar.gz
         fi
     fi
     tar -zxf nghttp2*.tar.gz
-    rm nghttp2.tar.gz
-    cd nghttp2*
+    cd nghttp2-${nh2version}
     ./configure --prefix=/opt/LAON/nghttp2
     make && make install
 }
@@ -204,8 +205,8 @@ install_apache(){
     #npm install hexo-cli -g
     #mkdir /var/www
     #mkdir /var/www/blog
-    #hexo init ${hexopatch}
-    #cd ${hexopatch}
+    #hexo init ${hexopath}
+    #cd ${hexopath}
     #npm install
 #}
 
