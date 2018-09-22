@@ -41,8 +41,8 @@ fi
 pre_install(){
     # Set Nghttp2 Version
     echo -e "Please enter the version number you want to install for Nghttp2:"
-    read -p "(Default Version: 1.32.0):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.32.0"
+    read -p "(Default Version: 1.33.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.33.0"
     # Confirm Location
     # echo -e "Is this machine in Mainland China? (y/n):"
     # read -p "(Default :n):" chinaornot
@@ -82,17 +82,9 @@ make_dir(){
 install_apr(){
     echo "Installing Apr"
     cd /opt/LAON/tmp
-    if [ "$chinaornot" = "n" ]; then 
-        if ! git clone https://github.com/apache/apr -b trunk; then
-	    echo -e "[${red}Error${plain}] Failed to download Apr source files!"
-            exit 1
-        fi
-    elif [ "$chinaornot" = "y" ]; then 
-        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/apr.tar.gz; then
-            echo -e "[${red}Error${plain}] Failed to download Apr source files!"
-            else tar -zxf apr.tar.gz
-	    exit 1
-        fi
+    if ! git clone https://github.com/apache/apr -b trunk; then
+	echo -e "[${red}Error${plain}] Failed to download Apr source files!"
+        exit 1
     fi
     cd apr
     ./buildconf
@@ -126,17 +118,9 @@ install_pcre(){
 install_openssl(){
     echo "Installing OpenSSL"
     cd /opt/LAON/tmp 
-    if [ "$chinaornot" = "n" ]; then 
-        if ! git clone --recurse-submodules https://github.com/openssl/openssl; then
-	    echo -e "[${red}Error${plain}] Failed to download OpenSSL source files!"
-            exit 1
-        fi
-    elif [ "$chinaornot" = "y" ]; then 
-        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/openssl.tar.gz; then
-            echo -e "[${red}Error${plain}] Failed to download OpenSSL source files!"
-            else tar -zxf openssl.tar.gz
-	    exit 1
-        fi
+    if ! git clone --recurse-submodules https://github.com/openssl/openssl; then
+	echo -e "[${red}Error${plain}] Failed to download OpenSSL source files!"
+        exit 1
     fi
     cd openssl
     ./config --prefix=/opt/LAON/openssl enable-zlib enable-shared enable-tls1_3
@@ -150,20 +134,10 @@ install_openssl(){
 # Install Nghttp2
 install_nghttp2(){
     echo "Installing Nghttp2"
-    cd /opt/LAON/tmp 
-    if [ "$chinaornot" = "n" ]; then 
+    cd /opt/LAON/tmp  
     if ! wget --no-check-certificate https://github.com/nghttp2/nghttp2/releases/download/v${nh2version}/nghttp2-${nh2version}.tar.gz; then
-	    echo -e "[${red}Error${plain}] Failed to download Nghttp2 source files!"
-            exit 1
-        fi
-    elif [ "$chinaornot" = "y" ]; then 
-        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/nghttp2.tar.gz; then
-            echo -e "[${red}Error${plain}] Failed to download Nghttp2 source files!"
-            exit 1
-	    else
-	        tar -zxf nghttp2.tar.gz
-                rm nghttp2.tar.gz
-        fi
+	echo -e "[${red}Error${plain}] Failed to download Nghttp2 source files!"
+        exit 1
     fi
     tar -zxf nghttp2*.tar.gz
     cd nghttp2-${nh2version}
@@ -175,17 +149,9 @@ install_nghttp2(){
 install_apache(){
     echo "Installing Apache"
     cd /opt/LAON/tmp
-    if [ "$chinaornot" = "n" ]; then 
-        if ! git clone https://github.com/apache/httpd -b trunk; then
-	    echo -e "[${red}Error${plain}] Failed to download Httpd source files!"
-            exit 1
-        fi
-    elif [ "$chinaornot" = "y" ]; then 
-        if ! wget --no-check-certificate https://files.baka.org.cn/LAON/httpd.tar.gz; then
-            echo -e "[${red}Error${plain}] Failed to download Httpd source files!"
-            else tar -zxf httpd.tar.gz
-	    exit 1
-        fi
+    if ! git clone https://github.com/apache/httpd -b trunk; then
+	echo -e "[${red}Error${plain}] Failed to download Httpd source files!"
+        exit 1
     fi
     cd httpd
     ln -s /opt/LAON/tmp/apr srclib/apr
