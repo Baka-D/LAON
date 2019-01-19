@@ -41,8 +41,8 @@ fi
 pre_install(){
     # Set Nghttp2 Version
     echo -e "Please enter the version number you want to install for Nghttp2:"
-    read -p "(Default Version: 1.33.0):" nh2version
-    [ -z "$nh2version" ] && nh2version="1.33.0"
+    read -p "(Default Version: 1.36.0):" nh2version
+    [ -z "$nh2version" ] && nh2version="1.36.0"
     # Confirm Location
     # echo -e "Is this machine in Mainland China? (y/n):"
     # read -p "(Default :n):" chinaornot
@@ -68,7 +68,7 @@ pre_install(){
     #Install necessary dependencies
     apt-get update -y
     apt-get upgrade -y
-    apt-get install build-essential git unzip gcc make automake python autoconf libtool* libexpat1-dev -y
+    apt-get install build-essential unzip gcc make automake python autoconf libtool* libexpat1-dev -y
 }
 
 # Making File-Cache Dir
